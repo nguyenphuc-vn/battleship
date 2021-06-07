@@ -86,8 +86,8 @@ public class Game {
 
     /*Start checking valid place*/
     private boolean isOccupied(List<List<Character>> list, int row1, int col1, int row2, int col2) {
-        for (int row = row1-1; row <= row2+1; row++) {
-            for (int col = col1-1; col <= col2+1; col++) {
+        for (int row = row1 - 1; row <= row2 + 1; row++) {
+            for (int col = col1 - 1; col <= col2 + 1; col++) {
                 if (list.get(row).get(col) == 'O') {
                     System.out.println("Error! You placed it too close to another one. Try again:");
                     return true;
@@ -96,7 +96,27 @@ public class Game {
         }
         return false;
     }
+
     /*Ended check valid place*/
+    /*Check shot hits*/
+    public boolean placeSymbol(List<List<Character>> list, String input,Engine engine) {
+        String[] inputs = input.split("\\s");
+        int row = parse(inputs[0]);
+        int col = parse(inputs[1]);
+        if (list.get(row).get(col) == 'O') {
+            list.get(row).set(col, 'X');
+            engine.printGrid();
+            System.out.println("You hit a ship!");
+            return true;
+        }
+        list.get(row).set(col, 'M');
+        engine.printGrid();
+        System.out.println("You missed!");
+        return false;
+    }
+
+
+    /*Ended shot hits*/
 
     private int parse(String input) {
         return Integer.parseInt(input);
@@ -104,16 +124,16 @@ public class Game {
 }
 
 class GameTest {
-    /*Start Checking Range*/
-  /*  private boolean outOfRange(int row1, int col1, int row2, int col2) {
+    /*Start Checking Range*//*
+    private boolean outOfRange(int row1, int col1, int row2, int col2) {
         return checkRange(row1) || checkRange(col1) ||
                 checkRange(row2) || checkRange(col2);
     }
 
     private boolean checkRange(int pos) {
         return pos <= 0 || pos >= 11;
-    }*/
-    /*Ended Check Range*/
+    }
+    *//*Ended Check Range*/
    /*  for (int row = row1; row <= row2; row++) {
             for (int col = col1; col <= col2; col++) {
 

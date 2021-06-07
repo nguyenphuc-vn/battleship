@@ -2,6 +2,7 @@ package personal.battleship;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /* Step 1: print grid 10x10
    Step 2 : Place coordinates
@@ -18,6 +19,12 @@ import java.util.List;
  -- If out of range -> error
  -- If occupied --> error
  -- If wrong length --> error
+-----------------------------------
+Take input
+check valid place --loop
+Check if it hit ship
+---> hit
+---> missed
 
  */
 public class Engine {
@@ -39,6 +46,7 @@ public class Engine {
                 System.out.print(grid.get(row).get(col) + " ");
             }
         }
+        System.out.println();
     }
 
     private void setGrid() {
@@ -51,7 +59,7 @@ public class Engine {
     }
 
     /*  START PARSING */
-    public String parse(String input) {
+    public String parseTwo(String input) {
         String[] position = input.split("\\s");
         int first = getPosition(position[0]);
         int second = getPosition(position[1]);
@@ -63,11 +71,26 @@ public class Engine {
     private String replaceInput(String input, int place) {
         return input.replaceAll("[A-J]", place + " ");
     }
-
+    public String parseOne(String input){
+        int first = getPosition(input);
+        return replaceInput(input,first);
+    }
     private int getPosition(String input) {
         return input.charAt(0) - 64;
     }
     /*END PARSE INPUT*/
+
+    /*Check shot position*/
+    public boolean checkShotPosition(String input){
+        return input.charAt(0)-49 >= 0 && input.charAt(0)-49 <= 10;
+    }
+
+    /*End check shot position*/
+    public boolean checkRange(String input){
+        Pattern pattern = Pattern.compile("[A-J][0-9]|10");
+        return pattern.matcher(input).matches();
+
+    }
 
     public List<List<Character>> getGrid() {
         return grid;
@@ -78,38 +101,30 @@ class EngineTest {
     static Engine engine = new Engine();
     static String first = "F3 F7";
     static String second = "A1 D1";
-    static String third = "J7 J10";
+    //static String third = "J7 J10";
     static String fourth = "J10 J8";
-    static String fifth = "B9 D8";
+    //static String fifth = "B9 D8";
     static String sixth = "B9 D9";
-    static String seventh = "E6 D6";
+    //static String seventh = "E6 D6";
     static String eighth = "I2 J2";
     static List<String> mockList = new ArrayList<>();
 
     public static void main(String[] args) {
 
         testSetup();
-        parseTest();
+
     }
 
     private static void testSetup() {
         engine.printGrid();
     }
 
-    /*  private static void setUp(){
-          mockList.add(first);  mockList.add(second);  mockList.add(third);  mockList.add(fourth);
-          mockList.add(fifth);  mockList.add(sixth);  mockList.add(seventh);  mockList.add(eighth);
-      }*/
-    private static void parseTest() {
-        System.out.println("first " + engine.parse(first));
-        System.out.println("second " + engine.parse(second));
-        System.out.println("third " + engine.parse(third));
-        System.out.println("fourth " + engine.parse(fourth));
-        System.out.println("fifth " + engine.parse(fifth));
-        System.out.println("sixth " + engine.parse(sixth));
-        System.out.println("seventh " + engine.parse(seventh));
-        System.out.println("eighth " + engine.parse(eighth));
+      private static void setUp(){
+          mockList.add(first);  mockList.add(second);   mockList.add(fourth);
+          mockList.add(sixth);    mockList.add(eighth);
+          //mockList.add(third);
+          //mockList.add(seventh);
+          //mockList.add(fifth);
+      }
 
-
-    }
 }
