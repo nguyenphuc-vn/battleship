@@ -11,12 +11,14 @@ public class BattleshipApp {
     public static void main(String[] args) {
         engine = new Engine();
         game = new Game();
-        engine.printGrid();
-        askUser();
+        List<List> grid = engine.getGrid();
+
+        engine.printGrid(grid);
+        askUser(grid);
     }
 
-    private static void askUser() {
-        List<List<Character>> grid = engine.getGrid();
+    private static void askUser(List<List> grid) {
+        List<List> gridState = engine.getGridState();
         int enumLen = Ships.values().length;
         String input ;
         for (int i = 0; i < enumLen; i++) {
@@ -28,15 +30,15 @@ public class BattleshipApp {
                 input = scanner.nextLine().toUpperCase();
                 input = engine.parseTwo(input);
                 if (game.checkGrid(grid, input, name, cell)) {
-                    engine.printGrid();
+                    engine.printGrid(grid);
                     break;
                 }
             }
         }
         System.out.println("\nThe game starts!");
-        engine.printGrid();
+        engine.printGrid(gridState);
         input =  shotPos();
-        game.placeSymbol(grid,input,engine);
+        game.placeSymbol(grid,input,engine,gridState);
     }
 
     private static String shotPos() {

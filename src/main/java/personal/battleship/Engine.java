@@ -28,14 +28,17 @@ Check if it hit ship
 
  */
 public class Engine {
-    private final List<List<Character>> grid;
+    private final List<List> grid;
+    private final List<List> gridState;
 
     public Engine() {
         this.grid = new ArrayList<>();
-        setGrid();
+        this.gridState = new ArrayList<>();
+        setGrid(grid);
+        setGrid(gridState);
     }
 
-    public void printGrid() {
+    public void printGrid(List<List> grid) {
         char symbol = 'A';
         for (int i = 1; i < 11; i++) {
             System.out.print(" " + i);
@@ -43,17 +46,17 @@ public class Engine {
         for (int row = 1; row < 11; row++) {
             System.out.print("\n" + symbol++ + " ");
             for (int col = 1; col < 11; col++) {
-                System.out.print(grid.get(row).get(col) + " ");
+                    System.out.print(grid.get(row).get(col) + " ");
             }
         }
         System.out.println();
     }
 
-    private void setGrid() {
+    private void setGrid(List<List> grid ) {
         for (int row = 0; row < 12; row++) {
             grid.add(new ArrayList<>(12));
             for (int col = 0; col < 12; col++) {
-                grid.get(row).add('~');
+                 grid.get(row).add('~');
             }
         }
     }
@@ -92,39 +95,12 @@ public class Engine {
 
     }
 
-    public List<List<Character>> getGrid() {
+    public List<List> getGrid() {
         return grid;
     }
+
+    public List<List> getGridState() {
+        return gridState;
+    }
 }
 
-class EngineTest {
-    static Engine engine = new Engine();
-    static String first = "F3 F7";
-    static String second = "A1 D1";
-    //static String third = "J7 J10";
-    static String fourth = "J10 J8";
-    //static String fifth = "B9 D8";
-    static String sixth = "B9 D9";
-    //static String seventh = "E6 D6";
-    static String eighth = "I2 J2";
-    static List<String> mockList = new ArrayList<>();
-
-    public static void main(String[] args) {
-
-        testSetup();
-
-    }
-
-    private static void testSetup() {
-        engine.printGrid();
-    }
-
-      private static void setUp(){
-          mockList.add(first);  mockList.add(second);   mockList.add(fourth);
-          mockList.add(sixth);    mockList.add(eighth);
-          //mockList.add(third);
-          //mockList.add(seventh);
-          //mockList.add(fifth);
-      }
-
-}
